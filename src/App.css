@@ -1,0 +1,134 @@
+/* Additional component-specific styles */
+
+/* Status bar color for mobile browsers */
+.status-bar {
+  height: env(safe-area-inset-top);
+  background-color: #5dade2;
+}
+
+/* Loading states */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+/* Error states */
+.error {
+  background: #ff6b6b;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px;
+  text-align: center;
+}
+
+/* Success states */
+.success {
+  background: #2ecc71;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin: 16px;
+  text-align: center;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #5dade2;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a90c2;
+}
+
+/* Hide scrollbar for mobile */
+@media (max-width: 768px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Focus styles for accessibility */
+button:focus,
+input:focus,
+textarea:focus {
+  outline: 2px solid #5dade2;
+  outline-offset: 2px;
+}
+
+/* Animation for page transitions */
+.page-transition {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Leaflet map adjustments for mobile */
+.leaflet-container {
+  background: #f8f9fa;
+}
+
+.leaflet-control-zoom {
+  border: none !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.leaflet-control-zoom a {
+  background: white !important;
+  color: #5dade2 !important;
+  border: none !important;
+  font-size: 18px !important;
+  font-weight: bold !important;
+}
+
+.leaflet-control-zoom a:hover {
+  background: #f8f9fa !important;
+}
+
+/* Custom marker styles */
+.user-location-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+.heritage-location-marker {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 480px) {
+  .leaflet-control-zoom {
+    display: none;
+  }
+  
+  .leaflet-popup-content-wrapper {
+    border-radius: 12px;
+  }
+  
+  .leaflet-popup-content {
+    margin: 12px 16px;
+    line-height: 1.5;
+  }
+}
