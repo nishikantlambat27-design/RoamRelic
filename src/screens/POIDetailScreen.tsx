@@ -9,6 +9,8 @@ interface POIDetailScreenProps {
   onPlayAudio: (location: Location) => void;
   onReportDamage: () => void;
   onJoinPetition: () => void;
+  onViewKeyLocations?: (location: Location) => void; // New prop for key locations navigation
+  keyLocations?: Location[]; // Array of key locations within this heritage site
 }
 
 const POIDetailScreen: React.FC<POIDetailScreenProps> = ({
@@ -17,12 +19,15 @@ const POIDetailScreen: React.FC<POIDetailScreenProps> = ({
   onPlayAudio,
   onReportDamage,
   onJoinPetition,
+  onViewKeyLocations,
+  keyLocations,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const [capturedMedia, setCapturedMedia] = useState<{
     photos: Blob[];
     recordings: Blob[];
   }>({ photos: [], recordings: [] });
+  const [keyLocationsExpanded, setKeyLocationsExpanded] = useState(false);
 
   // Handle photo capture
   const handlePhotoCapture = (photoBlob: Blob) => {
@@ -53,6 +58,12 @@ const POIDetailScreen: React.FC<POIDetailScreenProps> = ({
   // Handle media capture errors
   const handleMediaError = (error: string) => {
     alert(`Media Error: ${error}`);
+  };
+
+  // Handle individual key location click
+  const handleKeyLocationClick = (keyLocation: Location) => {
+    console.log('Key location selected:', keyLocation.name);
+    alert(`Viewing details for: ${keyLocation.name}\n\nDescription: ${keyLocation.description}\nDistance: ${keyLocation.distance}`);
   };
 
   return (
@@ -188,6 +199,143 @@ const POIDetailScreen: React.FC<POIDetailScreenProps> = ({
                   <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                 </svg>
               </div>
+            </div>
+          )}
+
+          {/* Expandable Key Locations */}
+          {keyLocations && keyLocations.length > 0 && (
+            <div className="card" style={{ marginBottom: '20px' }}>
+              {/* Header - clickable to expand/collapse */}
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '16px',
+                  cursor: 'pointer',
+                  padding: '12px 0',
+                  borderBottom: keyLocationsExpanded ? '1px solid #f0f0f0' : 'none',
+                }}
+                onClick={() => setKeyLocationsExpanded(!keyLocationsExpanded)}
+              >
+                <div
+                  style={{
+                    background: '#8e44ad',
+                    borderRadius: '50%',
+                    width: '48px',
+                    height: '48px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    flexShrink: 0,
+                  }}
+                >
+                  <span style={{ fontSize: '24px' }}>🏰</span>
+                </div>
+                <div style={{ flex: 1 }}>
+                  <h3 style={{ margin: '0 0 4px 0', fontSize: '1rem', fontWeight: '600' }}>
+                    Key Locations Nearby
+                  </h3>
+                  <div style={{ color: '#666', fontSize: '0.875rem' }}>
+                    {keyLocations.length === 1 
+                      ? `1 historic location within ${keyLocations[0].distance || '100m'}`
+                      : `${keyLocations.length} historic locations within this area`
+                    }
+                  </div>
+                </div>
+                <svg 
+                  viewBox="0 0 24 24" 
+                  fill="#8e44ad" 
+                  width="20" 
+                  height="20"
+                  style={{
+                    transform: keyLocationsExpanded ? 'rotate(90deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.2s ease'
+                  }}
+                >
+                  <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                </svg>
+              </div>
+
+              {/* Expandable content */}
+              {keyLocationsExpanded && (
+                <div style={{ paddingTop: '12px' }}>
+                  {keyLocations.map((keyLocation, index) => (
+                    <div
+                      key={keyLocation.id}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '12px',
+                        padding: '12px 8px',
+                        borderBottom: index < keyLocations.length - 1 ? '1px solid #f8f8f8' : 'none',
+                        cursor: 'pointer',
+                        borderRadius: '8px',
+                        transition: 'background-color 0.2s ease',
+                      }}
+                      onClick={() => handleKeyLocationClick(keyLocation)}
+                      onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f8f9fa'}
+                      onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+                    >
+                      {/* Location Icon */}
+                      <div
+                        style={{
+                          background: '#e8f4fd',
+                          borderRadius: '50%',
+                          width: '36px',
+                          height: '36px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0,
+                        }}
+                      >
+                        <span style={{ fontSize: '16px' }}>🏛️</span>
+                      </div>
+
+                      {/* Location Details */}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <h4 style={{ 
+                          margin: '0 0 4px 0', 
+                          fontSize: '0.9rem', 
+                          fontWeight: '600',
+                          color: '#333',
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis'
+                        }}>
+                          {keyLocation.name}
+                        </h4>
+                        <div style={{ 
+                          color: '#666', 
+                          fontSize: '0.75rem',
+                          lineHeight: '1.3',
+                          display: '-webkit-box',
+                          WebkitLineClamp: 2,
+                          WebkitBoxOrient: 'vertical',
+                          overflow: 'hidden'
+                        }}>
+                          {keyLocation.description}
+                        </div>
+                        {keyLocation.distance && (
+                          <div style={{ 
+                            color: '#8e44ad', 
+                            fontSize: '0.75rem',
+                            fontWeight: '500',
+                            marginTop: '4px'
+                          }}>
+                            📍 {keyLocation.distance}
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Arrow */}
+                      <svg viewBox="0 0 24 24" fill="#ccc" width="16" height="16">
+                        <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
+                      </svg>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
