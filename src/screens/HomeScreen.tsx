@@ -21,6 +21,7 @@ interface DroppedPin {
 }
 
 // Mock data for heritage locations
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const mockLocations: Location[] = [
   {
     id: "1",
@@ -136,6 +137,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onLocationSelect }) => {
   const useReverseLocation = false; // Toggle this to switch between user location and hardcoded location
   const {
     location: userLocation,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     error,
     loading,
     getCurrentLocation,
@@ -143,6 +145,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onLocationSelect }) => {
   const [mapCenter, setMapCenter] = useState<[number, number]>([
     28.6139, 77.209,
   ]); // Default to Delhi
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [droppedPins, setDroppedPins] = useState<DroppedPin[]>([]);
   const [pinDropMode, setPinDropMode] = useState(false);
   const [address, setAddress] = useState<string | null>(null);
@@ -156,6 +159,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onLocationSelect }) => {
   });
 
   // Custom icon for heritage locations
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const heritageIcon = L.divIcon({
     html: `<div style="background: #e74c3c; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 12px;">📍</div>`,
     className: "heritage-location-marker",
@@ -164,6 +168,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onLocationSelect }) => {
   });
 
   // Custom icon for dropped pins
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const droppedPinIcon = L.divIcon({
     html: `<div style="background: #f39c12; width: 22px; height: 22px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 6px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-size: 14px;">📌</div>`,
     className: "dropped-pin-marker",
@@ -215,11 +220,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onLocationSelect }) => {
   };
 
   // Remove a dropped pin
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const removePin = (pinId: string) => {
     setDroppedPins((prev) => prev.filter((pin) => pin.id !== pinId));
   };
 
   // Handle clicking on an existing dropped pin
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handlePinClick = (pin: DroppedPin) => {
     const pinLocation: Location = {
       id: pin.id,
@@ -269,7 +276,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onLocationSelect }) => {
       };
       fetchAddress();
     }
-  }, [userLocation]);
+  }, [userLocation, useReverseLocation]);
 
   const getCurrentLocationButton = (
     <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>

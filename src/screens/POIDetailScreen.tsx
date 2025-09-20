@@ -24,6 +24,7 @@ const POIDetailScreen: React.FC<POIDetailScreenProps> = ({
   keyLocations,
 }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [capturedMedia, setCapturedMedia] = useState<{
     photos: Blob[];
     recordings: Blob[];

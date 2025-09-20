@@ -29,7 +29,6 @@ const GuideComponent: React.FC<GuideComponentProps> = ({ touristPlace = "" }) =>
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const localTrackRef = useRef<MediaStreamTrack | null>(null);
 
-  const [logs, setLogs] = useState<string[]>([]);
   const [running, setRunning] = useState<boolean>(false);
 
   const system_instructions: string = `You are a personal tourist guide specialized in history. 
@@ -59,7 +58,6 @@ Qutub Minar, built in 1193 by Qutb-ud-din Aibak, is one of the tallest brick min
 Greet the user and start providing details about "${touristPlace}"`;
 
   const logMessage = useCallback((message: string): void => {
-    setLogs((prev) => [...prev, `${new Date().toLocaleTimeString()}: ${message}`]);
     console.log(message);
   }, []);
 
